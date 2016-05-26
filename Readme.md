@@ -29,7 +29,12 @@ app.use(function * (next) {
 app.listen(3000);
 ```
 
-![](http://cl.ly/image/3D1o3m2Q3Z0x/direct)
+Sample:
+
+```
+->  2016-05-26T18:19:29.551Z method=POST path=/test/rvs/inapp status=200 time=24ms body={"username":"fortino@ooyala.com","appstore":"roku","sku":"aaaaaaaaaa","receipt":"5AB3663A-AA82-4007-A079-A5DA011E6707"}
+<-  2016-05-26T18:19:29.575Z method=POST path=/test/rvs/inapp status=200 time=24ms body={"error":{"message":"Invalid signature","code":401,"type":"Invalid_Signature_"},"success":false}
+```
 
 
 #### Options
@@ -40,11 +45,14 @@ There are few options, that you can customize:
 var requests = require('koa-log-requests');
 
 requests.indent = 2; // insert N spaces at the beginning
-requests.format = ':method :path status=:status time=:time body=:body'; // format of output
+requests.format = ':date :method :path status=:status time=:time body=:body data=:custom'; // format of output
 requests.filter = ['password', 'password_confirmation']; // filter out these keys from request body
+requests.customData = function(){ return 'something'};  //print any information that you want
+
 ```
 
 
 ### License
 
 koa-log-requests is released under the MIT license.
+

@@ -1,14 +1,14 @@
 {
-  "name": "koa-log-requests",
+  "name": "koa-log-requests-response",
   "version": "1.0.0",
-  "description": "Log request method, path, status, time spent and body",
+  "description": "Log request date, method, path, status, time spent, body and response",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vdemedes/koa-log-requests.git"
+    "url": "https://github.com/fortino645/koa-log-requests"
   },
   "keywords": [
     "koa",
@@ -16,12 +16,12 @@
     "logs",
     "request"
   ],
-  "author": "Vadim Demedes <vdemedes@gmail.com>",
+  "author": "Fortino Gutierrez <fortino645@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vdemedes/koa-log-requests/issues"
+    "url": "https://github.com/fortino645/koa-log-requests/issues"
   },
-  "homepage": "https://github.com/vdemedes/koa-log-requests",
+  "homepage": "https://github.com/fortino645/koa-log-requests",
   "dependencies": {
     "ms": "^0.7.0"
   }

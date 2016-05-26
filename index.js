@@ -22,8 +22,9 @@ module.exports = function () {
 var options = exports;
 
 options.indent = 2;
-options.format = 'method=:method path=:path status=:status time=:time body=:body';
+options.format = ':date method=:method path=:path status=:status time=:time body=:body :custom';
 options.filter = ['password', 'password_confirmation'];
+options.customData = function(){return ''};
 
 
 /**
@@ -32,68 +33,72 @@ options.filter = ['password', 'password_confirmation'];
 
 function * log (next) {
 	var start = Date.now();
-	
 	// if error occurs
 	// catch it, store it
 	// log the failed request
 	// and then throw it again
 	var err;
-	
+
 	try {
 	  yield next;
 	} catch (e) {
 	  err = e;
 	  this.status = err.status || 500;
 	}
-	
+
 	var end = Date.now();
-	
+  var customData = null;
+  try{
+  	customData = options.customData();
+
+    if(typeof customData === 'object')
+      customData = JSON.stringify(customData);
+  }catch(e){
+    customData = '';
+  }
 	var params = {
+    date: new Date(start).toISOString(),
 	  method: this.method.toUpperCase(),
 	  path: this.url,
 	  status: this.status,
 	  time: ms(end - start),
-	  body: serialize(this.request.body || {})
+	  body: JSON.stringify(this.request.body || {}),
+    custom: options.customData()
 	};
-	
+
 	var output = options.format;
-	
+
 	Object.keys(params).forEach(function (param) {
 	  output = output.replace(':' + param, params[param]);
 	});
-	
+
 	// insert spaces
 	output = indent(output);
-	
-	console.log(output);
-	
+
+	console.log('->' + output);
+
+  params.body = JSON.stringify(this.body || {});
+  params.date = new Date(end).toISOString();
+
+  output = options.format;
+
+	Object.keys(params).forEach(function (param) {
+	  output = output.replace(':' + param, params[param]);
+	});
+
+	// insert spaces
+	output = indent(output);
+
+  console.log('<-' + output);
+
 	if (err) throw err;
-};
+}
 
 
 /**
  * Utilities
  */
-
-function serialize (obj) {
-  if (Object.prototype.toString.call(obj) !== '[object Object]') return obj;
-  
-  // request params keys
-  var keys = Object.keys(obj);
-  
-  // filter out keys
-  keys = keys.filter(function (key) {
-    return options.filter.indexOf(key) === -1;
-  });
-  
-  // convert to stirng
-  obj = keys.map(function (key) {
-    return format('%s: %s', key, obj[key]);
-  });
-  
-  return format('{ %s }', obj.join(', '));
-}
-
 function indent (str) {
   return new Array(options.indent + 1).join(' ') + str;
 }
+
