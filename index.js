@@ -7,15 +7,6 @@ var ms = require('ms');
 
 
 /**
- * Expose middleware
- */
-
-module.exports = function (conf) {
-  options = conf;
-  return log;
-};
-
-/**
  * Options
  */
 
@@ -25,8 +16,18 @@ options.indent = 2;
 options.format_input = ':date method=:method path=:path status=:status time=:time body=:body :custom';
 options.format_output = ':date method=:method path=:path status=:status time=:time body=:body :custom';
 options.filter = ['password', 'password_confirmation'];
-options.customData = function(){return ''};
+options.customData = function() {return ''};
 
+/**
+ * Expose middleware
+ */
+
+module.exports = function (conf) {
+  return function *() {
+    options = conf;
+    yield log();
+  }
+};
 
 /**
  * Log requests
