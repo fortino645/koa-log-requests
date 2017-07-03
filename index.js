@@ -10,13 +10,13 @@ var ms = require('ms');
  * Options
  */
 
-var options = exports;
+var defaultOptions = exports;
 
-options.indent = 2;
-options.format_input = ':date method=:method path=:path status=:status time=:time body=:body :custom';
-options.format_output = ':date method=:method path=:path status=:status time=:time body=:body :custom';
-options.filter = ['password', 'password_confirmation'];
-options.customData = function() {return ''};
+defaultOptions.indent = 2;
+defaultOptions.format_input = ':date method=:method path=:path status=:status time=:time body=:body :custom';
+defaultOptions.format_output = ':date method=:method path=:path status=:status time=:time body=:body :custom';
+defaultOptions.filter = ['password', 'password_confirmation'];
+defaultOptions.customData = function() {return ''};
 
 /**
  * Expose middleware
@@ -24,7 +24,7 @@ options.customData = function() {return ''};
 
 module.exports = function (conf) {
   return function *(next) {
-    options = conf;
+    var options = Object.assign(defaultOptions, conf);
     yield log(options, next);
   }
 };
