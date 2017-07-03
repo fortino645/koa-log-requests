@@ -25,7 +25,7 @@ defaultOptions.customData = function(){return ''};
 
 module.exports = function (conf) {
   return function *(next) {
-    yield log(Object.assign(defaultOptions, conf), next);
+    yield log(Object.assign(defaultOptions, conf, this), next);
   }
 };
 
@@ -33,7 +33,7 @@ module.exports = function (conf) {
  * Log requests
  */
 
-function * log (options, next) {
+function * log (options, next, self) {
   var start = Date.now();
   // if error occurs
   // catch it, store it
@@ -45,7 +45,7 @@ function * log (options, next) {
     yield next;
   } catch (e) {
     err = e;
-    this.status = err.status || 500;
+    self.status = err.status || 500;
   }
 
   var end = Date.now();
@@ -60,11 +60,11 @@ function * log (options, next) {
   }
   var params = {
     date: new Date(start).toISOString(),
-    method: this.method.toUpperCase(),
-    path: this.url,
-    status: this.status,
+    method: self.method.toUpperCase(),
+    path: self.url,
+    status: self.status,
     time: ms(end - start),
-    body: JSON.stringify(this.request.body || {}),
+    body: JSON.stringify(self.request.body || {}),
     custom: options.customData()
   };
 
@@ -79,7 +79,7 @@ function * log (options, next) {
 
   console.log('->' + output);
 
-  params.body = JSON.stringify(this.body || {});
+  params.body = JSON.stringify(self.body || {});
   params.date = new Date(end).toISOString();
 
   output = options.format_output;
