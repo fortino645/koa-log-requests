@@ -23,9 +23,9 @@ options.customData = function() {return ''};
  */
 
 module.exports = function (conf) {
-  return function *() {
+  return function *(next) {
     options = conf;
-    yield log();
+    yield log(options, next);
   }
 };
 
@@ -33,7 +33,7 @@ module.exports = function (conf) {
  * Log requests
  */
 
-function * log (next) {
+function * log (options, next) {
   var start = Date.now();
   // if error occurs
   // catch it, store it
