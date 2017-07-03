@@ -25,7 +25,7 @@ defaultOptions.customData = function(){return ''};
 
 module.exports = function (conf) {
   return function *(next) {
-    log(Object.assign(defaultOptions, conf), next);
+    yield log(Object.assign(defaultOptions, conf), next);
   }
 };
 
