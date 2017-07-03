@@ -10,10 +10,10 @@ var ms = require('ms');
  * Expose middleware
  */
 
-module.exports = function () {
+module.exports = function (conf) {
+  options = conf;
   return log;
 };
-
 
 /**
  * Options
