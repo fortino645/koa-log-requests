@@ -7,7 +7,7 @@ Outputs method, path, response status, time spent and request body.
 ### Installation
 
 ```
-$ npm install koa-log-requests --save
+$ npm install koa-log-requests-response --save
 ```
 
 
@@ -15,7 +15,7 @@ $ npm install koa-log-requests --save
 
 ```javascript
 var koa = require('koa');
-var requests = require('koa-log-requests');
+var requests = require('koa-log-requests-response');
 
 var app = koa();
 
@@ -42,10 +42,11 @@ Sample:
 There are few options, that you can customize:
 
 ```javascript
-var requests = require('koa-log-requests');
+var requests = require('koa-log-requests-response');
 
 requests.indent = 2; // insert N spaces at the beginning
-requests.format = ':date :method :path status=:status time=:time body=:body data=:custom'; // format of output
+requests.format_input = ':date :method :path status=:status time=:time body=:body data=:custom'; // format of output
+requests.format_output = ':date :method :path status=:status time=:time body=:body data=:custom'; // format of output
 requests.filter = ['password', 'password_confirmation']; // filter out these keys from request body
 requests.customData = function(){ return 'something'};  //print any information that you want
 
@@ -53,6 +54,5 @@ requests.customData = function(){ return 'something'};  //print any information 
 
 
 ### License
-
-koa-log-requests is released under the MIT license.
+koa-log-requests-response is released under the MIT license.
 
