@@ -1,3 +1,5 @@
+
+
 /**
  * Dependencies
  */
@@ -5,18 +7,17 @@
 var format = require('util').format;
 var ms = require('ms');
 
-
 /**
  * Options
  */
 
-var defaultOptions = exports;
+var defaultOptions = {};
 
 defaultOptions.indent = 2;
 defaultOptions.format_input = ':date method=:method path=:path status=:status time=:time body=:body :custom';
 defaultOptions.format_output = ':date method=:method path=:path status=:status time=:time body=:body :custom';
 defaultOptions.filter = ['password', 'password_confirmation'];
-defaultOptions.customData = function() {return ''};
+defaultOptions.customData = function(){return ''};
 
 /**
  * Expose middleware
@@ -24,8 +25,7 @@ defaultOptions.customData = function() {return ''};
 
 module.exports = function (conf) {
   return function *(next) {
-    var options = Object.assign(defaultOptions, conf);
-    yield log(options, next);
+    log(Object.assign(defaultOptions, conf), next);
   }
 };
 
